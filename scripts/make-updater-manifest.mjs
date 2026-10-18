@@ -64,6 +64,9 @@ if (!found.signature) {
 
 const fileName = basename(found.installer);
 const bytes = readFileSync(found.installer);
+// GitHub sustituye los espacios por puntos al subir un asset, así que la URL
+// pública no coincide con el nombre local del archivo.
+const assetName = fileName.replace(/ /g, ".");
 const manifest = {
   version,
   notes: `MLA Server ${tag}. Descarga desde https://mla-ex3tav.github.io/mla-craft/`,
@@ -71,7 +74,7 @@ const manifest = {
   platforms: {
     "windows-x86_64": {
       signature: readFileSync(found.signature, "utf8").trim(),
-      url: `https://github.com/${repo}/releases/download/${tag}/${encodeURIComponent(fileName)}`,
+      url: `https://github.com/${repo}/releases/download/${tag}/${encodeURIComponent(assetName)}`,
     },
   },
 };

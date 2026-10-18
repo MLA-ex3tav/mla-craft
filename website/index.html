@@ -40,7 +40,7 @@
       <a href="#requisitos">Requisitos</a>
       <a href="#preguntas">Preguntas</a>
     </nav>
-    <a class="btn btn-primary btn-sm topbar-cta" href="#descargar">
+    <a class="btn btn-primary btn-sm topbar-cta" href="#descargar" data-download-cta>
       <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M12 3v12m0 0 4.5-4.5M12 15l-4.5-4.5M5 20h14" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>
       Descargar
     </a>
@@ -306,13 +306,13 @@
             <div><dt>Descargas</dt><dd data-release-downloads>—</dd></div>
           </dl>
 
-          <a class="btn btn-primary btn-lg btn-block" href="#" data-download-link data-download-cta>
+          <a class="btn btn-primary btn-lg btn-block" href="#descargar" data-download-link data-download-cta>
             <svg viewBox="0 0 24 24" width="19" height="19" aria-hidden="true"><path d="M12 3v12m0 0 4.5-4.5M12 15l-4.5-4.5M5 20h14" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>
             <span data-download-label>Descargar instalador</span>
           </a>
 
           <p class="download-hint" data-download-hint>
-            Se abre la página del último release en GitHub con todos los archivos.
+            Consulta la versión y descarga el instalador sin salir de esta página.
           </p>
 
           <div class="hash">
@@ -448,6 +448,21 @@
   </div>
 </footer>
 
-<script src="assets/js/main.js" defer></script>
+<dialog class="download-dialog" id="download-dialog" aria-labelledby="download-title" aria-describedby="download-description">
+  <button class="dialog-close" type="button" aria-label="Cerrar descarga" autofocus>×</button>
+  <img src="assets/img/logo-flat-96.png" width="48" height="48" alt="" />
+  <p class="eyebrow">Tu próxima aventura</p>
+  <h2 id="download-title">Descargar MLA Server</h2>
+  <p id="download-description">El instalador para Windows, aquí mismo.</p>
+  <div class="dialog-file" hidden>
+    <strong data-dialog-file></strong>
+    <span data-dialog-meta></span>
+  </div>
+  <p class="dialog-status" role="status" aria-live="polite" data-dialog-status>Consultando la versión disponible…</p>
+  <a class="btn btn-primary btn-block" data-direct-download download hidden>Descargar instalador</a>
+  <button class="btn btn-ghost btn-block" type="button" data-retry-download hidden>Volver a intentar</button>
+  <p class="dialog-help">Cuando termine la descarga, abre el archivo para instalar MLA Server.</p>
+</dialog>
+<script src="assets/js/main.js" type="module"></script>
 </body>
 </html>

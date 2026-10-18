@@ -62,7 +62,7 @@ jobs:
             - Las apps ya instaladas ven esta versión al arrancar (updater firmado con minisign).
           releaseDraft: false
           prerelease: false
-          includeUpdaterJson: true
+          uploadUpdaterJson: true
           updaterJsonPreferNsis: true
 
   sitio:
@@ -98,6 +98,7 @@ jobs:
           else
             git add website/assets/data/releases.json
             git commit -m "Sitio: actualizar manifiesto a ${GITHUB_REF_NAME}"
+            git pull --rebase origin main
             git push origin HEAD:main
           fi
 

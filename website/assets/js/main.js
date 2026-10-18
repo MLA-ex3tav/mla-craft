@@ -8,12 +8,16 @@
    Si el endpoint no responde, se usa assets/data/releases.json.
    ========================================================= */
 
+import { installerUrl, githubReleaseEndpoint, pickWindowsInstaller } from "./downloads.js";
+
 const FALLBACK_MANIFEST = "assets/data/releases.json";
 const API_MANIFEST = "/api/releases/latest";
 const DOWNLOAD_BEACON = "/api/downloads";
 
 /** Muestra u oculta la hora de la verdad: plataforma objetivo del sitio. */
 const TARGET_PLATFORM = "windows";
+let manifestRequest;
+const getManifest = () => manifestRequest ??= loadManifest();
 
 /* ---------- Utilidades ---------- */
 
@@ -58,7 +62,7 @@ async function loadManifest() {
   const sources = [API_MANIFEST, FALLBACK_MANIFEST];
   for (const source of sources) {
     try {
-      const response = await fetch(source, { headers: { accept: "application/json" } });
+      const response = await fetch(source, { headers: { accept: "application/json" }, signal: AbortSignal.timeout(8000) });
       if (!response.ok) continue;
       const data = await response.json();
       if (data?.latest?.version) return { data, source };
@@ -85,7 +89,6 @@ function applyManifest(manifest, repo) {
   const { latest } = manifest;
   const asset = pickAsset(manifest);
   const versionLabel = `v${String(latest.version).replace(/^v/i, "")}`;
-  const releaseUrl = latest.notesUrl || asset?.url || repo;
 
   $$("[data-release-version]").forEach((el) => { el.textContent = versionLabel; });
   $$("[data-release-date]").forEach((el) => { el.textContent = formatDate(latest.releasedAt); });
@@ -105,7 +108,7 @@ function applyManifest(manifest, repo) {
   });
 
   $$("[data-download-link]").forEach((link) => {
-    link.href = asset?.url || releaseUrl;
+    link.href = "#descargar";
     link.dataset.version = versionLabel;
     if (asset?.file) link.title = asset.file;
   });
@@ -119,8 +122,8 @@ function applyManifest(manifest, repo) {
 
   $$("[data-download-hint]").forEach((el) => {
     el.textContent = isWindows()
-      ? "Se abre la página del último release en GitHub con todos los archivos."
-      : "Este instalador es para Windows. El enlace te lleva al último release en GitHub.";
+      ? "Consulta la versión y descarga el instalador sin salir de esta página."
+      : "Este instalador es para Windows. Puedes descargarlo aquí para usarlo en tu PC.";
   });
 
   $$("[data-repo-link]").forEach((link) => { link.href = repo; });
@@ -251,12 +254,12 @@ function setupCopyHash() {
 }
 
 function setupDownloadTracking() {
-  $$("[data-download-cta]").forEach((el) => {
+  $$("[data-direct-download]").forEach((el) => {
     el.addEventListener("click", () => {
       const payload = JSON.stringify({
         platform: TARGET_PLATFORM,
-        version: document.documentElement.dataset.release ?? null,
-        source: el.classList.contains("btn-block") ? "download-card" : "cta",
+        version: el.dataset.version ?? document.documentElement.dataset.release ?? null,
+        source: "download-dialog",
       });
       try {
         if (navigator.sendBeacon) {
@@ -268,6 +271,81 @@ function setupDownloadTracking() {
         /* el contador se conecta con el backend */
       }
     });
+  });
+}
+
+function setupDownloadDialog() {
+  const dialog = $("#download-dialog");
+  const status = $("[data-dialog-status]");
+  const action = $("[data-direct-download]");
+  const retry = $("[data-retry-download]");
+  const file = $(".dialog-file");
+  let requestId = 0;
+  let opener;
+  const prepare = async () => {
+    const id = ++requestId;
+    action.hidden = retry.hidden = file.hidden = true;
+    action.removeAttribute("href");
+    dialog.setAttribute("aria-busy", "true");
+    status.textContent = "Consultando la versión disponible…";
+    try {
+      const loaded = await getManifest();
+      if (!loaded) throw new Error("manifest");
+      let asset = pickAsset(loaded.data);
+      let version = loaded.data.latest.version;
+      let url = asset?.platform === "windows" ? installerUrl(asset.url, location.href) : null;
+      if (!url) {
+        const endpoint = githubReleaseEndpoint(loaded.data.repo);
+        if (!endpoint) throw new Error("repository");
+        const response = await fetch(endpoint, { headers: { accept: "application/vnd.github+json" }, signal: AbortSignal.timeout(10000) });
+        if (!response.ok) throw new Error("release");
+        const release = await response.json();
+        const installer = pickWindowsInstaller(release.assets);
+        url = installerUrl(installer?.browser_download_url, location.href);
+        if (!url || release.draft || release.prerelease) throw new Error("installer");
+        asset = { file: installer.name, sizeBytes: installer.size, label: "Windows 10 y 11 · 64 bits" };
+        version = release.tag_name;
+      }
+      if (id !== requestId || !dialog.open) return;
+      $("[data-dialog-file]").textContent = asset.file || "Instalador de MLA Server";
+      $("[data-dialog-meta]").textContent = `v${String(version).replace(/^v/i, "")} · ${asset.label || "Windows · 64 bits"}${asset.sizeBytes ? ` · ${formatBytes(asset.sizeBytes)}` : ""}`;
+      action.href = url;
+      action.setAttribute("download", asset.file || "");
+      action.dataset.version = String(version);
+      action.hidden = file.hidden = false;
+      status.textContent = isWindows() ? "Todo listo. Pulsa el botón para descargar el instalador." : "Este instalador es para Windows. Puedes guardarlo para usarlo en un PC compatible.";
+    } catch {
+      if (id !== requestId || !dialog.open) return;
+      status.textContent = "El instalador no está disponible en este momento. Vuelve a intentarlo en unos minutos.";
+      retry.hidden = false;
+    } finally {
+      if (id === requestId) dialog.removeAttribute("aria-busy");
+    }
+  };
+  $$("[data-download-cta]").forEach((trigger) => {
+    trigger.setAttribute("aria-haspopup", "dialog");
+    trigger.addEventListener("click", (event) => {
+      event.preventDefault();
+      opener = trigger;
+      if (!dialog.open) dialog.showModal();
+      document.body.classList.add("download-dialog-open");
+      prepare();
+    });
+  });
+  $(".dialog-close", dialog).addEventListener("click", () => dialog.close());
+  dialog.addEventListener("click", (event) => {
+    const bounds = dialog.getBoundingClientRect();
+    if (event.target === dialog && (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom)) dialog.close();
+  });
+  dialog.addEventListener("close", () => {
+    requestId++;
+    dialog.removeAttribute("aria-busy");
+    document.body.classList.remove("download-dialog-open");
+    opener?.focus();
+  });
+  retry.addEventListener("click", () => { manifestRequest = null; prepare(); });
+  action.addEventListener("click", () => {
+    status.textContent = "Descarga solicitada. Revisa las descargas de tu navegador; si no comienza, puedes volver a pulsar el botón.";
   });
 }
 
@@ -283,10 +361,11 @@ async function init() {
   setupAtmosphere();
   setupReveals();
   setupCopyHash();
+  setupDownloadDialog();
   setupDownloadTracking();
   setupYear();
 
-  const loaded = await loadManifest();
+  const loaded = await getManifest();
   if (!loaded) return;
   const repo = loaded.data.repo || "https://github.com/";
   applyManifest(loaded.data, repo);

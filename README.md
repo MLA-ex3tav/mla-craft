@@ -90,11 +90,15 @@ actualiza `website/assets/data/releases.json` y publica el sitio.
 ### Compilar y firmar en local
 
 ```powershell
-$env:TAURI_SIGNING_PRIVATE_KEY = "$env:USERPROFILE\.tauri\mla-craft-updater.key"
-$env:TAURI_SIGNING_PRIVATE_KEY_PASSWORD = Get-Content "$env:USERPROFILE\.tauri\mla-craft-updater.password"
+$keyDir = "$env:USERPROFILE\.tauri"
+$env:TAURI_SIGNING_PRIVATE_KEY = "$keyDir\mla-craft-updater.key"   # en `build`/`bundle` vale la ruta
+$env:TAURI_SIGNING_PRIVATE_KEY_PASSWORD = Get-Content "$keyDir\mla-craft-updater.password" -Raw
 npm run tauri build
 node scripts/make-updater-manifest.mjs   # genera latest.json junto a los bundles
 ```
+
+No uses la variable `$pwd` para guardar la contraseña: en PowerShell es la variable
+automática `$PWD` (el directorio actual) y `cd` la sobrescribe.
 
 ## Descargas y versiones
 
