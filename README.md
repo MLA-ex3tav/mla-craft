@@ -66,6 +66,10 @@ Los instaladores se publican en [Releases](../../releases). El sitio de descarga
 `GET /api/releases/latest` si el backend está disponible y, si no, usa
 `website/assets/data/releases.json` como respaldo.
 
+## Licencia
+
+MIT. Consulta [`LICENSE`](LICENSE). El proyecto no está afiliado a Mojang Studios.
+
 ## Convenciones de diseño
 
 Las reglas visuales del proyecto están en [`AGENTS.md`](AGENTS.md). En resumen: el
