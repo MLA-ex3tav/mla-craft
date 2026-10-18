@@ -1,0 +1,22 @@
+{
+  "repo": "https://github.com/MLA-ex3tav/mla-craft",
+  "latest": {
+    "version": "0.1.0",
+    "channel": "stable",
+    "releasedAt": "2026-10-18T12:00:00Z",
+    "notesUrl": "https://github.com/MLA-ex3tav/mla-craft/releases/latest",
+    "totalDownloads": null,
+    "assets": [
+      {
+        "id": "windows-x64",
+        "platform": "windows",
+        "arch": "x64",
+        "label": "Windows 10 y 11 · 64 bits",
+        "file": "MLA Server_0.1.0_x64-setup.exe",
+        "sizeBytes": null,
+        "sha256": null,
+        "url": "https://github.com/MLA-ex3tav/mla-craft/releases/latest"
+      }
+    ]
+  }
+}

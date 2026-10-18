@@ -1,0 +1,30 @@
+[package]
+name = "mla-craft-core"
+version = "0.1.0"
+description = "Lógica compartida de MLA Server (sin dependencias de UI)"
+authors = ["MLA Server"]
+edition = "2024"
+
+[lib]
+name = "mla_craft_core"
+
+[dependencies]
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+tokio = { version = "1", features = ["full"] }
+reqwest = { version = "0.12", default-features = false, features = ["rustls-tls", "json", "stream", "gzip"] }
+futures-util = "0.3"
+zip = "2"
+base64 = "0.22"
+flate2 = "1"
+toml = "=0.8.2"
+sha2 = "0.10"
+sha1 = "0.10"
+hex = "0.4"
+thiserror = "2"
+chrono = { version = "0.4", features = ["serde"] }
+uuid = { version = "1", features = ["v4", "serde"] }
+walkdir = "2"
+sysinfo = "0.33"
+encoding_rs = "0.8"
+tempfile = "3"

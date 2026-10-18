@@ -1,0 +1,65 @@
+/* MLA Server startup splash.
+   The creeper intro scene is an inline SVG in index.html (#scene) so it paints before
+   React mounts; /startup-intro.js drives the timeline. This file owns the stage, the
+   drawn-in loading label/progress bar, and the hand-off fade to the app. */
+.startup {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  /* Declared here because React's index.css has not loaded yet at splash time. */
+  font-family: "Cascadia Code", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  background: #0a140e;
+}
+
+.startup.is-leaving { animation: startup-leave 120ms ease both; }
+.startup-failure { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 20px; padding: 32px; box-sizing: border-box; color: #203c2d; background: #b9cdbb url('/backgrounds/complementary-forest.jpg') center / cover; font-family: "Segoe UI", sans-serif; text-align: center; }
+.startup-failure h1 { font-size: 24px; margin: 0; }
+.startup-failure p { max-width: 600px; overflow-wrap: anywhere; }
+.startup-failure button { background: #e4f3e9; color: #203c2d; border: 1px solid #237b4b; border-radius: 10px; padding: 12px 20px; cursor: pointer; }
+
+/* Cover the viewport without stretching the scene; crop surplus scenery equally. */
+.startup-stage { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: max(100vw, 177.7778vh); aspect-ratio: 16 / 9; }
+
+.startup-stage svg { display: block; width: 100%; height: 100%; pointer-events: none; }
+
+#scenery, #creeper, #dust, #debris, #smoke { shape-rendering: crispEdges; }
+
+/* Visibility follows the logo's animation clock in startup-intro.js. */
+.startup-content {
+  position: absolute;
+  left: 50%;
+  top: min(73%, calc(50% + 38vh));
+  width: min(420px, max(220px, 23.75%), calc(100vw - 48px));
+  transform: translate(-50%, -50%);
+  text-align: center;
+  opacity: 0;
+}
+
+.startup-label {
+  margin: 0 0 14px;
+  font-family: "Cascadia Code", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: #bfe3a6;
+  text-shadow: 0 1px 3px #06100ab3;
+}
+
+.startup-track { width: 100%; height: 6px; margin: auto; overflow: hidden; border-radius: 6px; background: #2b4b37; box-shadow: 0 1px 3px #06100a66; }
+.startup-track span { display: block; height: 100%; width: 40%; border-radius: inherit; background: #7cb342; animation: startup-loading 1400ms ease-in-out infinite; }
+
+@keyframes startup-reveal {
+  from { opacity: 0; transform: translate(-50%, calc(-50% + 8px)); }
+  to { opacity: 1; transform: translate(-50%, -50%); }
+}
+@keyframes startup-loading { from { transform: translateX(-110%); } to { transform: translateX(360%); } }
+@keyframes startup-leave { from { opacity: 1; } to { opacity: 0; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .startup-content { opacity: 1; }
+  .startup-track span { animation: none; width: 65%; }
+  .startup.is-leaving { animation: none; }
+}

@@ -1,0 +1,465 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>MLA Server — Administra tu servidor de Minecraft sin complicaciones</title>
+<meta name="description" content="MLA Server es el panel de escritorio para Windows que instala, configura y administra tu servidor de Minecraft: Java automático, mods, plugins, copias de seguridad y consola en vivo." />
+<meta name="theme-color" content="#070d09" />
+<meta property="og:title" content="MLA Server — Tu servidor de Minecraft, bajo control" />
+<meta property="og:description" content="Instala Java, elige tu versión y gestiona mods, jugadores y backups desde un solo panel. Gratis para Windows." />
+<meta property="og:image" content="assets/img/logo-512.png" />
+<meta property="og:type" content="website" />
+<link rel="icon" href="assets/img/favicon.png" sizes="64x64" />
+<link rel="apple-touch-icon" href="assets/img/logo-192.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Sora:wght@600;700;800&display=swap" />
+<link rel="stylesheet" href="assets/css/styles.css" />
+<script>document.documentElement.classList.add("js");</script>
+</head>
+<body>
+<a class="skip-link" href="#contenido">Saltar al contenido</a>
+
+<div class="scene" aria-hidden="true">
+  <div class="scene-grid"></div>
+  <div class="scene-glow"></div>
+</div>
+
+<header class="topbar" id="topbar">
+  <div class="shell topbar-inner">
+    <a class="brand" href="#inicio" aria-label="MLA Server, inicio">
+      <img src="assets/img/logo-flat-96.png" width="34" height="34" alt="" />
+      <span class="brand-name">MLA<span class="brand-dot">Server</span></span>
+    </a>
+    <nav class="topnav" aria-label="Secciones">
+      <a href="#funciones">Funciones</a>
+      <a href="#panel">El panel</a>
+      <a href="#descargar">Descargar</a>
+      <a href="#requisitos">Requisitos</a>
+      <a href="#preguntas">Preguntas</a>
+    </nav>
+    <a class="btn btn-primary btn-sm topbar-cta" href="#descargar">
+      <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M12 3v12m0 0 4.5-4.5M12 15l-4.5-4.5M5 20h14" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Descargar
+    </a>
+  </div>
+</header>
+
+<main id="contenido">
+
+  <!-- HERO -->
+  <section class="hero" id="inicio">
+    <div class="hero-media">
+      <picture>
+        <source media="(min-width: 1300px)" srcset="assets/img/hero-1920.webp" />
+        <source media="(min-width: 760px)" srcset="assets/img/hero-1280.webp" />
+        <img src="assets/img/hero-900.webp" alt="Paisaje de Minecraft con montañas, cascadas y un atardecer sobre el agua" width="1672" height="941" fetchpriority="high" />
+      </picture>
+      <div class="hero-veil"></div>
+    </div>
+
+    <div class="shell hero-inner">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="pulse" aria-hidden="true"></span> <span data-release-version>v0.1.0</span> · disponible para Windows</p>
+        <h1>Tu servidor de Minecraft, <em>bajo control</em>.</h1>
+        <p class="lede">
+          MLA Server crea tu mundo, instala la versión de Java que necesita y te deja
+          mods, plugins, jugadores y copias de seguridad a un clic. Todo desde tu PC,
+          sin líneas de comando.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary btn-lg" href="#descargar" data-download-cta>
+            <svg viewBox="0 0 24 24" width="19" height="19" aria-hidden="true"><path d="M12 3v12m0 0 4.5-4.5M12 15l-4.5-4.5M5 20h14" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span data-download-label>Descargar para Windows</span>
+          </a>
+          <a class="btn btn-ghost btn-lg" href="#funciones">Ver qué incluye</a>
+        </div>
+        <ul class="hero-meta">
+          <li>
+            <svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M4 5h16v11H4zM9 20h6M12 16v4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Windows 10 y 11 · 64 bits
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M12 3l7 3v6c0 4.2-2.9 7.5-7 9-4.1-1.5-7-4.8-7-9V6z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>
+            Gratis y de código abierto
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M12 5v7l4 2M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Instalación en minutos
+          </li>
+        </ul>
+      </div>
+
+      <div class="hero-prop" aria-hidden="true">
+        <img class="prop prop-a" src="assets/img/blocks/grass_block.png" alt="" width="72" height="72" />
+        <img class="prop prop-b" src="assets/img/blocks/oak_log.png" alt="" width="60" height="60" />
+        <img class="prop prop-c" src="assets/img/blocks/cobblestone.png" alt="" width="52" height="52" />
+      </div>
+    </div>
+
+    <div class="hero-fade" aria-hidden="true"></div>
+  </section>
+
+  <!-- VENTAJAS -->
+  <section class="strip">
+    <div class="shell strip-grid" data-reveal>
+      <div class="strip-item">
+        <strong>6</strong>
+        <span>tipos de servidor: Vanilla, Paper, Spigot, Fabric, Forge y NeoForge</span>
+      </div>
+      <div class="strip-item">
+        <strong>Java automático</strong>
+        <span>descarga el runtime correcto para tu versión de Minecraft</span>
+      </div>
+      <div class="strip-item">
+        <strong>Mods y plugins</strong>
+        <span>busca e instala contenido desde el propio panel</span>
+      </div>
+      <div class="strip-item">
+        <strong>Backups</strong>
+        <span>programa copias y reinicios sin estar delante</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- FUNCIONES -->
+  <section class="section" id="funciones">
+    <div class="shell">
+      <header class="section-head" data-reveal>
+        <p class="eyebrow">Funciones</p>
+        <h2>Todo lo que tu servidor necesita, en una sola ventana</h2>
+        <p class="section-lede">
+          Deja de pelear con instaladores, archivos <code>.jar</code> y propiedades sueltas.
+          MLA Server hace el trabajo pesado y te muestra lo importante.
+        </p>
+      </header>
+
+      <div class="features">
+        <article class="feature feature-wide" data-reveal>
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M12 3v10m0 0 4-4m-4 4-4-4M4 17v2h16v-2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <h3>Instalación guiada</h3>
+          <p>
+            Elige el tipo de servidor, la versión de Minecraft y cuánta memoria darle.
+            MLA Server descarga el build correcto, lo deja listo y te muestra el avance
+            de cada fase: resolver, Java, descarga y configuración.
+          </p>
+          <ul class="feature-tags">
+            <li>Vanilla</li><li>Paper</li><li>Spigot</li><li>Fabric</li><li>Forge</li><li>NeoForge</li>
+          </ul>
+        </article>
+
+        <article class="feature" data-reveal>
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M8 5l-5 7 5 7m8-14 5 7-5 7M14 4l-4 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <h3>Java sin dolores de cabeza</h3>
+          <p>Detecta qué versión de Java necesita tu servidor y la instala en segundo plano. Nada de buscar el JDK por Internet.</p>
+        </article>
+
+        <article class="feature" data-reveal>
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9zM12 12l8-4.5M12 12v9M12 12L4 7.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>
+          </div>
+          <h3>Mods y plugins desde el panel</h3>
+          <p>Busca por nombre, explora categorías y ordena por descargas o novedades. Lo instalado se activa o desactiva cuando quieras.</p>
+        </article>
+
+        <article class="feature" data-reveal>
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M4 7h16v12H4zM4 7l3-3h10l3 3M12 11v5m0 0 2-2m-2 2-2-2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round"/></svg>
+          </div>
+          <h3>Copias de seguridad programadas</h3>
+          <p>Define cada cuánto se guarda tu mundo y cuántas copias conservar. Reinicia el servidor solo, sin que tengas que acordarte.</p>
+        </article>
+
+        <article class="feature" data-reveal>
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M16 18v-2a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v2M10 10a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7M20 18v-2a3 3 0 0 0-2.3-2.9M15.5 3.5a3.5 3.5 0 0 1 0 6.6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <h3>Jugadores en orden</h3>
+          <p>Lista blanca, operadores y sanciones con avatar y perfil. Consulta salud, inventario y última muerte de cada jugador.</p>
+        </article>
+
+        <article class="feature" data-reveal>
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M5 6h14v12H5zM8 10l2 2-2 2M12.5 14H16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <h3>Consola y estado en vivo</h3>
+          <p>Arranca, detén o reinicia y mira el log al instante. Ejecuta comandos y controla el uso de memoria sin salir de la app.</p>
+        </article>
+
+        <article class="feature" data-reveal>
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M12 3l2.4 5.2 5.6.7-4.1 3.9 1 5.6L12 15.7 7.1 18.4l1-5.6L4 8.9l5.6-.7z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+          </div>
+          <h3>Ajustes sin editar archivos</h3>
+          <p>Memoria, puerto, argumentos de la JVM y las propiedades de <code>server.properties</code> con etiquetas claras y ayuda en cada campo.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- PANEL -->
+  <section class="section section-panel" id="panel">
+    <div class="shell panel-layout">
+      <div class="panel-copy" data-reveal>
+        <p class="eyebrow">El panel</p>
+        <h2>Un panel claro, con el paisaje detrás</h2>
+        <p class="section-lede">
+          Cada servidor es una tarjeta con su tipo, versión, puerto y memoria.
+          El estado se actualiza en vivo y las acciones importantes están a un clic:
+          instalar, abrir carpeta, detener o reiniciar.
+        </p>
+        <ul class="check-list">
+          <li>Modo cooperativo para speedrun (MCSR) cuando lo necesitas.</li>
+          <li>Exporta e importa tu servidor como paquete <code>.mrpack</code>.</li>
+          <li>Funciona en local o conectado a un servidor remoto con tu cuenta.</li>
+        </ul>
+      </div>
+
+      <div class="panel-stage" data-reveal>
+        <div class="app-window" role="img" aria-label="Vista del panel de MLA Server con la lista de servidores y la consola">
+          <div class="app-chrome">
+            <span class="app-mark"></span>
+            <span class="app-title">MLA Server</span>
+            <span class="app-dots"><i></i><i></i><i></i></span>
+          </div>
+          <div class="app-body">
+            <aside class="app-sidebar">
+              <span class="app-logo"><img src="assets/img/logo-flat-96.png" width="22" height="22" alt="" /></span>
+              <span class="app-nav is-active"></span>
+              <span class="app-nav"></span>
+              <span class="app-nav"></span>
+              <span class="app-side-sep"></span>
+              <span class="app-avatar tone-a">P</span>
+              <span class="app-avatar tone-b">F</span>
+              <span class="app-avatar tone-c">V</span>
+              <span class="app-avatar-add">+</span>
+            </aside>
+            <div class="app-main">
+              <div class="app-head">
+                <div>
+                  <strong>Servidores</strong>
+                  <small>Tus mundos de Minecraft, en un solo lugar</small>
+                </div>
+                <span class="app-chip">3 servidores</span>
+              </div>
+              <div class="app-cards">
+                <div class="app-card">
+                  <span class="app-card-emblem tone-a"></span>
+                  <div class="app-card-text">
+                    <span class="app-badge">Paper</span>
+                    <strong>Mundo de los chicos</strong>
+                    <small>1.21.4 · puerto 25565 · 4 GB</small>
+                  </div>
+                  <span class="app-state app-state-on">Activo</span>
+                </div>
+                <div class="app-card">
+                  <span class="app-card-emblem tone-b"></span>
+                  <div class="app-card-text">
+                    <span class="app-badge">Fabric</span>
+                    <strong>Server de mods</strong>
+                    <small>1.20.1 · puerto 25566 · 6 GB</small>
+                  </div>
+                  <span class="app-state app-state-off">Detenido</span>
+                </div>
+                <div class="app-card is-installing">
+                  <span class="app-card-emblem tone-c"></span>
+                  <div class="app-card-text">
+                    <span class="app-badge">NeoForge</span>
+                    <strong>Creativo</strong>
+                    <small>Descargando · 62%</small>
+                  </div>
+                  <span class="app-progress"><i></i></span>
+                </div>
+              </div>
+              <div class="app-console">
+                <span class="app-console-head">Consola · Mundo de los chicos</span>
+                <p><b class="ok">[12:04:11]</b> Preparando el mundo <i>world</i>…</p>
+                <p><b class="ok">[12:04:19]</b> Done (7.114s)! For help, type "help"</p>
+                <p><b>[12:04:26]</b> Steve joined the game</p>
+                <p><b class="warn">[12:04:31]</b> Can't keep up! Running 42ms behind</p>
+                <p class="app-console-caret"><b>[12:04:40]</b> <span class="caret"></span></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DESCARGA -->
+  <section class="section section-download" id="descargar">
+    <div class="shell">
+      <header class="section-head center" data-reveal>
+        <p class="eyebrow">Descarga</p>
+        <h2>Bájalo y arranca tu mundo hoy</h2>
+        <p class="section-lede">Instalador para Windows con todo incluido. Sin cuentas, sin suscripciones y sin telemetría.</p>
+      </header>
+
+      <div class="download-grid" data-reveal>
+        <div class="download-card download-primary">
+          <div class="download-os">
+            <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path d="M3 5.6l7.6-1.1v7.1H3zM12 4.4 21 3v8.6h-9zM3 12.4h7.6v7.1L3 18.4zM12 12.4h9V21l-9-1.4z" fill="currentColor"/></svg>
+            <div>
+              <strong>Windows</strong>
+              <small data-release-os>Windows 10 y 11 · 64 bits</small>
+            </div>
+          </div>
+
+          <dl class="release-facts">
+            <div><dt>Versión</dt><dd data-release-version>v0.1.0</dd></div>
+            <div><dt>Publicado</dt><dd data-release-date>—</dd></div>
+            <div><dt>Tamaño</dt><dd data-release-size>—</dd></div>
+            <div><dt>Descargas</dt><dd data-release-downloads>—</dd></div>
+          </dl>
+
+          <a class="btn btn-primary btn-lg btn-block" href="#" data-download-link data-download-cta>
+            <svg viewBox="0 0 24 24" width="19" height="19" aria-hidden="true"><path d="M12 3v12m0 0 4.5-4.5M12 15l-4.5-4.5M5 20h14" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span data-download-label>Descargar instalador</span>
+          </a>
+
+          <p class="download-hint" data-download-hint>
+            Se abre la página del último release en GitHub con todos los archivos.
+          </p>
+
+          <div class="hash">
+            <span>SHA-256</span>
+            <code data-release-hash>se publica junto al instalador</code>
+            <button type="button" class="hash-copy" data-copy-hash hidden>Copiar</button>
+          </div>
+        </div>
+
+        <div class="download-side">
+          <article class="side-card">
+            <h3>Qué incluye el instalador</h3>
+            <ul class="check-list compact">
+              <li>Aplicación completa, sin versión de prueba.</li>
+              <li>Todas las versiones de Minecraft disponibles.</li>
+              <li>Actualizaciones desde el propio release.</li>
+            </ul>
+          </article>
+          <article class="side-card">
+            <h3>¿Aviso de Windows SmartScreen?</h3>
+            <p>
+              Es normal en aplicaciones nuevas sin firma comercial. Pulsa
+              <em>Más información</em> y luego <em>Ejecutar de todas formas</em>.
+            </p>
+          </article>
+          <article class="side-card side-card-quiet">
+            <h3>¿Otro sistema?</h3>
+            <p>Por ahora solo publicamos Windows. Linux y macOS están en el camino: si quieres probarlo antes, avísanos.</p>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- REQUISITOS -->
+  <section class="section" id="requisitos">
+    <div class="shell">
+      <header class="section-head" data-reveal>
+        <p class="eyebrow">Requisitos</p>
+        <h2>Lo que tu PC debería tener</h2>
+      </header>
+      <div class="req-grid">
+        <article class="req-card" data-reveal>
+          <h3>Mínimo</h3>
+          <ul>
+            <li><span>Sistema</span> Windows 10 (64 bits)</li>
+            <li><span>Procesador</span> 2 núcleos a 2 GHz</li>
+            <li><span>Memoria</span> 4 GB de RAM (2 GB libres para el servidor)</li>
+            <li><span>Disco</span> 1 GB para la app y el primer mundo</li>
+            <li><span>Red</span> Conexión a Internet para descargar el servidor y Java</li>
+          </ul>
+        </article>
+        <article class="req-card req-card-accent" data-reveal>
+          <h3>Recomendado</h3>
+          <ul>
+            <li><span>Sistema</span> Windows 11 (64 bits)</li>
+            <li><span>Procesador</span> 4 núcleos o más</li>
+            <li><span>Memoria</span> 16 GB de RAM (6-8 GB para el servidor)</li>
+            <li><span>Disco</span> SSD con 10 GB libres para mundos y backups</li>
+            <li><span>Red</span> Subida estable para jugar con amigos</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- PREGUNTAS -->
+  <section class="section" id="preguntas">
+    <div class="shell">
+      <header class="section-head" data-reveal>
+        <p class="eyebrow">Preguntas</p>
+        <h2>Dudas frecuentes</h2>
+      </header>
+      <div class="faq" data-reveal>
+        <details>
+          <summary>¿Necesito saber algo de Java o de la terminal?</summary>
+          <p>No. Eliges el tipo de servidor y la versión, y la app se encarga del resto: descarga el <code>.jar</code>, instala el runtime de Java que corresponde y arranca el servidor.</p>
+        </details>
+        <details>
+          <summary>¿Puedo jugar con amigos de otros lugares?</summary>
+          <p>Sí. Puedes abrir el puerto en tu red y compartir tu IP, usar un túnel, o instalar la app en un equipo o servidor remoto y administrarlo con el panel. MLA Server incluye un modo de administración remota con usuario y contraseña.</p>
+        </details>
+        <details>
+          <summary>¿Dónde se guardan mis mundos y copias de seguridad?</summary>
+          <p>En la carpeta que elijas al crear cada servidor. Todo es tuyo y visible: la app no sube tus mundos a ningún servicio.</p>
+        </details>
+        <details>
+          <summary>¿Puedo instalar mods y plugins de terceros?</summary>
+          <p>Sí. Buscas dentro del panel, instalas con un clic y puedes activar, desactivar o borrar cada archivo. También puedes añadir un <code>.jar</code> desde el explorador de archivos.</p>
+        </details>
+        <details>
+          <summary>¿Es realmente gratis?</summary>
+          <p>Sí. Puedes descargarlo y usarlo sin límites, sin registro y sin telemetría.</p>
+        </details>
+        <details>
+          <summary>¿Cómo actualizo a una versión nueva?</summary>
+          <p>Descarga el instalador del último release y ejecútalo encima. Tus servidores, mundos y ajustes se conservan.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- CIERRE -->
+  <section class="closing">
+    <div class="shell closing-inner" data-reveal>
+      <img src="assets/img/logo-flat-192.png" width="64" height="64" alt="" />
+      <h2>Deja de montar el servidor.<br />Empieza a jugarlo.</h2>
+      <a class="btn btn-primary btn-lg" href="#descargar" data-download-cta>
+        <svg viewBox="0 0 24 24" width="19" height="19" aria-hidden="true"><path d="M12 3v12m0 0 4.5-4.5M12 15l-4.5-4.5M5 20h14" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span data-download-label>Descargar para Windows</span>
+      </a>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="shell footer-inner">
+    <div class="footer-brand">
+      <img src="assets/img/logo-flat-96.png" width="28" height="28" alt="" />
+      <span class="brand-name">MLA<span class="brand-dot">Server</span></span>
+      <p>Panel de escritorio para administrar servidores de Minecraft en Windows.</p>
+    </div>
+    <nav class="footer-nav" aria-label="Enlaces">
+      <a href="#funciones">Funciones</a>
+      <a href="#descargar">Descargar</a>
+      <a href="#requisitos">Requisitos</a>
+      <a href="#preguntas">Preguntas</a>
+      <a href="#" data-repo-link rel="noopener">Repositorio</a>
+    </nav>
+  </div>
+  <div class="shell footer-bottom">
+    <span>© <span data-year>2026</span> MLA Craft. No afiliado a Mojang Studios.</span>
+    <span>Minecraft es una marca de Mojang Studios.</span>
+  </div>
+</footer>
+
+<script src="assets/js/main.js" defer></script>
+</body>
+</html>
