@@ -5,6 +5,14 @@ build ni dependencias.
 
 ## Previsualizar
 
+Los botones de descarga abren un diálogo en la página. El diálogo usa el enlace
+directo `.exe` o `.msi` del manifiesto; si todavía apunta a una página de release,
+consulta la API pública de GitHub para encontrar el instalador Windows x64 del
+último release estable. Si no está publicado o falla la consulta, muestra un aviso
+y permite reintentar sin redirigir al visitante. No se necesitan credenciales.
+
+Pruebas del selector de instaladores: `node --test website/scripts/downloads.test.mjs`.
+
 ```bash
 cd "E:\MLA Craft\website"
 node serve.mjs          # http://localhost:5173
