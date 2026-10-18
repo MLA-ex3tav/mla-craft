@@ -12,6 +12,8 @@ import ServerMenuProvider from "./components/ServerMenu";
 import SidebarServers from "./components/SidebarServers";
 import LoginScreen from "./components/LoginScreen";
 import FolderPicker from "./components/FolderPicker";
+import UpdateBanner from "./components/UpdateBanner";
+import { startUpdateCheck } from "./lib/updater";
 
 const ServerPage = lazy(() => import("./pages/ServerPage"));
 const SettingsPage = lazy(() => import("./pages/SettingsPage"));
@@ -30,6 +32,7 @@ function App() {
   useEffect(() => {
     void finishStartup();
     ensureServerLogs();
+    startUpdateCheck();
   }, []);
 
   if (!isDesktop && !authed) {
@@ -64,15 +67,18 @@ function App() {
           </nav>
           <SidebarServers />
         </aside>
-        <main className="workspace flex-1 overflow-hidden">
-          <Suspense fallback={<p className="p-6 text-sm text-muted" role="status">Cargando sección…</p>}>
-          <Routes>
-            <Route path="/" element={<ServersPage />} />
-            <Route path="/server/:id" element={<ServerPage />} />
-            <Route path="/content" element={<ContentPage />} />
-            <Route path="/settings" element={<SettingsPage />} />
-          </Routes>
-          </Suspense>
+        <main className="workspace flex min-w-0 flex-1 flex-col overflow-hidden">
+          <UpdateBanner />
+          <div className="min-h-0 flex-1">
+            <Suspense fallback={<p className="p-6 text-sm text-muted" role="status">Cargando sección…</p>}>
+            <Routes>
+              <Route path="/" element={<ServersPage />} />
+              <Route path="/server/:id" element={<ServerPage />} />
+              <Route path="/content" element={<ContentPage />} />
+              <Route path="/settings" element={<SettingsPage />} />
+            </Routes>
+            </Suspense>
+          </div>
         </main>
       </div>
       <FolderPicker />

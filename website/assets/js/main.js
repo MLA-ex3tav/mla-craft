@@ -137,11 +137,12 @@ function setupReveals() {
 
   const showAll = () => targets.forEach((el) => el.classList.add("is-visible"));
 
-  if (!("IntersectionObserver" in window)) {
+  if (!("IntersectionObserver" in window) || matchMedia("(prefers-reduced-motion: reduce)").matches) {
     showAll();
     return;
   }
 
+  document.documentElement.classList.add("reveal-ready");
   const observer = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
@@ -158,8 +159,70 @@ function setupReveals() {
     observer.observe(el);
   });
 
-  // Red de seguridad: nada se queda invisible si el observador no dispara.
-  setTimeout(showAll, 2500);
+}
+
+function setupNavigation() {
+  const toggle = $(".menu-toggle");
+  const nav = $("#site-nav");
+  const close = () => {
+    toggle.setAttribute("aria-expanded", "false");
+    nav.classList.remove("is-open");
+  };
+  toggle.addEventListener("click", () => {
+    const open = toggle.getAttribute("aria-expanded") !== "true";
+    toggle.setAttribute("aria-expanded", String(open));
+    nav.classList.toggle("is-open", open);
+  });
+  nav.addEventListener("click", (event) => { if (event.target.closest("a")) close(); });
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && toggle.getAttribute("aria-expanded") === "true") {
+      close();
+      toggle.focus();
+    }
+  });
+  document.addEventListener("click", (event) => { if (!event.target.closest(".topbar")) close(); });
+  matchMedia("(min-width: 861px)").addEventListener("change", close);
+  if (!("IntersectionObserver" in window)) return;
+  const sections = $$("main section[id]");
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      $$("a", nav).forEach((link) => {
+        if (link.hash === `#${entry.target.id}`) link.setAttribute("aria-current", "location");
+        else link.removeAttribute("aria-current");
+      });
+    });
+  }, { rootMargin: "-15% 0px -55% 0px", threshold: 0 });
+  sections.forEach((section) => observer.observe(section));
+}
+
+function setupAtmosphere() {
+  const reduced = matchMedia("(prefers-reduced-motion: reduce)");
+  const pointer = matchMedia("(hover: hover) and (pointer: fine)");
+  const hero = $(".hero");
+  let queued = false;
+  const update = () => {
+    queued = false;
+    const offset = reduced.matches ? 0 : Math.min(window.scrollY * .12, 24);
+    hero.style.setProperty("--landscape-y", `${offset}px`);
+  };
+  const schedule = () => {
+    if (!queued) { queued = true; requestAnimationFrame(update); }
+  };
+  window.addEventListener("scroll", schedule, { passive: true });
+  reduced.addEventListener("change", () => {
+    update();
+    if (reduced.matches) $$("[data-reveal]").forEach((el) => el.classList.add("is-visible"));
+  });
+  $$(".feature").forEach((card) => {
+    card.addEventListener("pointermove", (event) => {
+      if (reduced.matches || !pointer.matches) return;
+      const bounds = card.getBoundingClientRect();
+      card.style.setProperty("--spot-x", `${event.clientX - bounds.left}px`);
+      card.style.setProperty("--spot-y", `${event.clientY - bounds.top}px`);
+    });
+  });
+  update();
 }
 
 function setupTopbar() {
@@ -216,6 +279,8 @@ function setupYear() {
 
 async function init() {
   setupTopbar();
+  setupNavigation();
+  setupAtmosphere();
   setupReveals();
   setupCopyHash();
   setupDownloadTracking();

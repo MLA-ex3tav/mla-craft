@@ -1,0 +1,112 @@
+name: Publicar versión
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release-${{ github.ref_name }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+
+      - uses: dtolnay/rust-toolchain@v1
+        with:
+          toolchain: stable
+
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: ". -> target"
+
+      - name: Comprobar que la etiqueta coincide con la versión
+        shell: bash
+        run: |
+          tag="${GITHUB_REF_NAME#v}"
+          version=$(node -p "require('./src-tauri/tauri.conf.json').version")
+          if [ "$tag" != "$version" ]; then
+            echo "La etiqueta v$tag no coincide con la versión $version de src-tauri/tauri.conf.json." >&2
+            echo "Actualiza la versión antes de etiquetar." >&2
+            exit 1
+          fi
+          echo "Publicando la versión $version"
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Compilar, firmar y publicar
+        uses: tauri-apps/tauri-action@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
+        with:
+          tagName: ${{ github.ref_name }}
+          releaseName: "MLA Server ${{ github.ref_name }}"
+          releaseBody: |
+            Instalador de Windows de MLA Server.
+
+            - Descarga desde el sitio: https://mla-ex3tav.github.io/mla-craft/
+            - Las apps ya instaladas ven esta versión al arrancar (updater firmado con minisign).
+          releaseDraft: false
+          prerelease: false
+          includeUpdaterJson: true
+          updaterJsonPreferNsis: true
+
+  sitio:
+    needs: release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: main
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+
+      - name: Actualizar el manifiesto del sitio
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: node scripts/sync-release-manifest.mjs
+
+      - name: Guardar el manifiesto
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if git diff --quiet -- website/assets/data/releases.json; then
+            echo "El manifiesto ya estaba al día."
+          else
+            git add website/assets/data/releases.json
+            git commit -m "Sitio: actualizar manifiesto a ${GITHUB_REF_NAME}"
+            git push origin HEAD:main
+          fi
+
+      - uses: actions/configure-pages@v6
+
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: website
+
+      - name: Publicar en Pages
+        id: deployment
+        uses: actions/deploy-pages@v5

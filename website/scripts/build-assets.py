@@ -1,15 +1,14 @@
 from pathlib import Path
+from shutil import copy2
 from PIL import Image
 
 SRC = Path(r"E:\MLA Craft\public")
 OUT = Path(r"E:\MLA Craft\website\assets\img")
 OUT.mkdir(parents=True, exist_ok=True)
 
-# Hero landscape -> webp at two widths
-hero = Image.open(SRC / "backgrounds" / "minecraft-shaders.png").convert("RGB")
-for width in (1920, 1280, 900):
-    img = hero.resize((width, round(hero.height * width / hero.width)), Image.LANCZOS)
-    img.save(OUT / f"hero-{width}.webp", "WEBP", quality=82, method=6)
+# Keep the exact landscape used by the desktop app.
+copy2(SRC / 'backgrounds' / 'complementary-forest.jpg', OUT / 'complementary-forest.jpg')
+copy2(SRC / 'backgrounds' / 'complementary-forest-source.md', OUT / 'complementary-forest-source.md')
 
 # Logos (keep alpha)
 for name, out in (("mla-server-ms-stone.png", "logo"), ("mla-craft-logo-v2.png", "logo-flat")):
